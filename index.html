@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body onload="startPayment()">
+    <script>
+      function startPayment() {
+        var options = {
+          key: "rzp_test_nNCur574VZoFK2", // Replace with your key
+          amount: "5000", // amount in paise = ₹50.00
+          currency: "INR",
+          name: "Ludo Coins",
+          description: "Buy 100 Coins",
+          handler: function (response) {
+            // Send result back to Unity
+            window.location.href =
+              "unity://success?payment_id=" + response.razorpay_payment_id;
+          },
+          modal: {
+            ondismiss: function () {
+              window.location.href = "unity://cancel";
+            },
+          },
+          prefill: {
+            email: "test@example.com",
+            contact: "9999999999",
+          },
+          theme: {
+            color: "#F37254",
+          },
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+      }
+    </script>
+  </body>
+</html>
